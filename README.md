@@ -1,6 +1,6 @@
 ## 📚 Guia de Estudos e Consulta: Controle de Versão (VCS) e Git/GitHub
 
-Este documento é um resumo organizado das minhas anotações sobre **Sistemas de Controle de Versão (VCS)**, com foco em **Git** e **GitHub**, e comandos essenciais e fluxos de trabalho.
+Resumo organizado das minhas anotações sobre **Sistemas de Controle de Versão (VCS)**, com foco em **Git** e **GitHub**, seus comandos essenciais e fluxos de trabalho.
 
 ---
 
@@ -43,22 +43,22 @@ Este documento é um resumo organizado das minhas anotações sobre **Sistemas d
 
 ---
 
-#### 2.2. Fluxo de Conexão Remota
+#### 2.2. Fluxo Completo: Criar Remoto e Sincronizar (Merge com Local)
 
-| Ação | Comando | Descrição |
+| Passo | Ação / Comando | Descrição |
 | :--- | :--- | :--- |
-| **Clonar Repositório** | `$ git clone <URL>` | Clona um repositório Git existente para uma nova pasta local. |
-| **Clonar e Renomear** | `$ git clone <URL> "nome novo"` | Clona o repositório e nomeia a pasta local de destino. |
-| **Adicionar Remoto** | `$ git remote add origin <URL Github>` | Conecta o repositório local a um remoto, geralmente chamado **`origin`**. |
-| **Listar Remotos** | `$ git remote` | Mostra o nome do repositório remoto (ex: `origin`). |
-| **Baixar e Mesclar** | `$ git pull` | "Puxa" as alterações do repositório remoto para o local (**`fetch`** e **`merge`**). |
-| **Baixar (Apenas Fetch)** | `$ git fetch origin` | Verifica se há atualizações no remoto sem mesclá-las no branch atual. |
-| **Enviar Alterações** | `$ git push -u origin main` | "Empurra" os *commits* do repositório local para o remoto (na branch `main`). |
-| **Mesclar** | `$ git merge origin/main` | Mescla alterações baixadas do remoto (`origin/main`) para o branch local atual. |
+| **1. Criar Repositório Remoto** | (Ação feita no GitHub) | No GitHub, crie um "New repository". É opcional adicionar `.gitignore` ou `README.md` aqui. |
+| **2. Adicionar Remoto** | `$ git remote add origin <URL Github>` | Conecta seu repositório local ao recém-criado remoto, nomeando-o como **`origin`**. |
+| **3. Mudar Nome da Branch** | `$ git branch -M main` | (Opcional, mas recomendado) Renomeia sua *branch* local principal para `main`. |
+| **4. Primeira Sincronização** | `$ git push -u origin main` | Envia os *commits* do local (`main`) para o remoto (`origin`). O `-u` define `origin main` como *upstream*. |
+| **5. Clonar Repositório** | `$ git clone <URL>` | Cria uma cópia local de um repositório Git existente (se estiver começando do zero com um repositório remoto existente). |
+| **6. Baixar e Mesclar** | `$ git pull` | "Puxa" as alterações do repositório remoto para o local (**`fetch`** e **`merge`**). |
+| **7. Baixar (Apenas Fetch)** | `$ git fetch origin` | Verifica se há atualizações no remoto sem mesclá-las no branch atual. |
+| **8. Enviar Alterações** | `$ git push` | Envia os novos *commits* do repositório local para o remoto. |
 
 ---
 
-### 3. 🛡️ Autenticação no GitHub
+### 3. 🔑 Autenticação no GitHub
 
 O acesso ao GitHub para operações como `git clone` ou `git push` requer autenticação.
 
@@ -69,10 +69,10 @@ O protocolo **SSH** permite a conexão e autenticação no GitHub sem a necessid
 | Ação | Comando Git Bash | Observações |
 | :--- | :--- | :--- |
 | **Verificar Chaves** | `$ ls -a ~/.ssh` | Lista os arquivos existentes no diretório `.ssh`. |
-| **Gerar Nova Chave** | `$ ssh-keygen -t ed25519 -C "email github"` | Cria um par de chaves (**privada** e **pública**). |
-| **Exibir Chave Pública** | `$ cat id_ed25519.pub` | Copie o conteúdo para colar no GitHub (**Settings** $\rightarrow$ **Access** $\rightarrow$ **SSH...**). |
+| **Gerar Nova Chave** | `$ ssh-keygen -t edxxxxx -C "email github"` | Cria um par de chaves (**privada** e **pública**). |
+| **Exibir Chave Pública** | `$ cat id_edxxxxx.pub` | Copie o conteúdo para colar no GitHub (**Settings** $\rightarrow$ **Access** $\rightarrow$ **SSH...**). |
 | **Iniciar `ssh-agent`** | `$ eval "$(ssh-agent -s)"` | Inicia o agente para gerenciar as chaves. |
-| **Adicionar Chave Privada** | `$ ssh-add ~/.ssh/id-ed25519` | Adiciona a chave privada ao agente SSH. |
+| **Adicionar Chave Privada** | `$ ssh-add ~/.ssh/id-edxxxxx` | Adiciona a chave privada ao agente SSH. |
 
 #### 3.2. Personal Access Token (PAT)
 
@@ -84,7 +84,20 @@ Token gerado no GitHub para autenticação em vez da senha. É solicitado no pri
 
 ---
 
-### 4. 📝 Desfazendo Alterações e Limpeza
+### 4. 📝 Ciclo de Commit (Salvando Alterações)
+
+Este é o fluxo fundamental para registrar o progresso no Git.
+
+| Passo | Comando | Estado do Arquivo | Descrição |
+| :--- | :--- | :--- | :--- |
+| **1. Modificar** | (Edição no código) | Área de Trabalho (*Working Area*) | Arquivos são alterados e estão como **Modified** (ou **Untracked**). |
+| **2. Preparar** | `$ git add .` | Área de Preparação (*Staging Area*) | Move os arquivos do *Working Area* para o *Staging Area*. O Git os marca para o próximo *commit*. |
+| **3. Salvar** | `$ git commit -m 'mensagem'` | Repositório Local | Cria um ponto permanente no histórico, salvando o estado atual da *Staging Area*. |
+| **4. Enviar** | `$ git push` | Repositório Remoto | Envia os novos *commits* para o servidor remoto (ex: GitHub). |
+
+---
+
+### 5. Desfazendo Alterações e Limpeza
 
 | Objetivo | Comando | Observação |
 | :--- | :--- | :--- |
@@ -94,7 +107,6 @@ Token gerado no GitHub para autenticação em vez da senha. É solicitado no pri
 | **Remover Versionamento** | `$ rm -rf .git` | Deve ser usado para apagar o repositório Git localmente. |
 | **Arquivar Modificações** | `$ git stash` | Salva temporariamente as modificações não commitadas, limpando a área de trabalho. |
 | **Ignorar Arquivos** | Criar arquivo `.gitignore` | Arquivos/pastas listados aqui não serão rastreados pelo Git. |
-| **Pastas Vazias** | N/A | Git **NÃO** rastreia pastas/diretórios vazios. |
 
 #### Git Reset (Desfazer Commits)
 
@@ -108,7 +120,7 @@ Utiliza o *hash* (identificador exclusivo) do *commit* para retornar a um estado
 
 ---
 
-### 5. 🌳 Trabalhando com Branches
+### 6. 🌳 Trabalhando com Branches
 
 | Objetivo | Comando | Descrição |
 | :--- | :--- | :--- |
@@ -120,28 +132,21 @@ Utiliza o *hash* (identificador exclusivo) do *commit* para retornar a um estado
 | **Clonar Branch Específica** | `$ git clone <URL> --branch <nome> --single-branch` | Clona o repositório baixando apenas a *branch* especificada. |
 | **Mostrar Diferenças** | `$ git diff` | Mostra as diferenças entre o *working directory* e o *staging area*, ou entre branches. |
 
-> 📌 **Nota sobre Branches**: Uma nova *branch* se inicia apontando para o mesmo *commit* da *branch* onde você estava quando ela foi criada.
-
 ---
 
-### 6. 🔄 Atualização de Repositório e Conflitos
-
-A distinção entre `fetch` e `pull` e a gestão de conflitos são fundamentais ao trabalhar em equipe.
+### 7. 🔄 Atualização de Repositório e Conflitos
 
 | Conceito/Ação | Comando | Descrição |
 | :--- | :--- | :--- |
-| **`git fetch` vs. `git pull`** | `$ git fetch` | **Baixa** as alterações do repositório remoto, mas **NÃO** as mescla no seu *branch* local. Apenas atualiza as referências remotas (ex: `origin/main`). |
-| | `$ git pull` | É um atalho que executa **`git fetch`** seguido por **`git merge`** (ou **`git rebase`**). Baixa e mescla as alterações automaticamente. |
-| **Conflito (*Conflict*)** | N/A | Ocorre quando as mesmas linhas de código são modificadas de formas diferentes em *branches* que estão sendo mesclados (`merge` ou `pull`). |
+| **`git fetch` vs. `git pull`** | `$ git fetch` | **Baixa** as alterações do remoto, mas **NÃO** as mescla no seu *branch* local. |
+| | `$ git pull` | Executa **`git fetch`** seguido por **`git merge`**. Baixa e mescla automaticamente. |
 | **Resolução de Conflitos** | Editar o arquivo, `$ git add .`, `$ git commit -m "Resolvendo conflitos"` | Remover as marcações `<<<<<<<`, `=======`, `>>>>>>>` no arquivo e salvar o código desejado. |
 
-### 7. 🏷️ Tags e Histórico
-
-Tags são usadas para marcar pontos específicos no histórico do seu projeto, como *releases* (versões estáveis).
+### 8. 🏷️ Tags e Histórico
 
 | Objetivo | Comando | Descrição |
 | :--- | :--- | :--- |
-| **Criar Tag Leve** | `$ git tag v1.0.0` | Cria uma tag simples, como um ponteiro. Usada para marcar um *commit* específico. |
-| **Criar Tag Anotada** | `$ git tag -a v1.0.0 -m "Versão de lançamento 1.0.0"` | Cria uma tag que armazena informações extras (autor, data, mensagem). Mais segura. |
-| **Listar Tags** | `$ git tag` | Lista todas as tags criadas no repositório. |
+| **Criar Tag Leve** | `$ git tag v1.0.0` | Cria uma tag simples. |
+| **Criar Tag Anotada** | `$ git tag -a v1.0.0 -m "mensagem"` | Cria uma tag que armazena informações extras (autor, data, mensagem). |
+| **Listar Tags** | `$ git tag` | Lista todas as tags criadas. |
 | **Enviar Tags para o Remoto** | `$ git push origin --tags` | As tags **não** são enviadas automaticamente pelo `git push` normal. |
