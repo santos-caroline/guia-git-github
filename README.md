@@ -69,10 +69,10 @@ O protocolo **SSH** permite a conexão e autenticação no GitHub sem a necessid
 | Ação | Comando Git Bash | Observações |
 | :--- | :--- | :--- |
 | **Verificar Chaves** | `$ ls -a ~/.ssh` | Lista os arquivos existentes no diretório `.ssh`. |
-| **Gerar Nova Chave** | `$ ssh-keygen -t edxxxxx -C "email github"` | Cria um par de chaves (**privada** e **pública**). |
-| **Exibir Chave Pública** | `$ cat id_edxxxxx.pub` | Copie o conteúdo para colar no GitHub (**Settings** $\rightarrow$ **Access** $\rightarrow$ **SSH...**). |
+| **Gerar Nova Chave** | `$ ssh-keygen -t ed25519 -C "email github"` | Cria um par de chaves (**privada** e **pública**). |
+| **Exibir Chave Pública** | `$ cat id_ed25519.pub` | Copie o conteúdo para colar no GitHub (**Settings** $\rightarrow$ **Access** $\rightarrow$ **SSH...**). |
 | **Iniciar `ssh-agent`** | `$ eval "$(ssh-agent -s)"` | Inicia o agente para gerenciar as chaves. |
-| **Adicionar Chave Privada** | `$ ssh-add ~/.ssh/id-edxxxxx` | Adiciona a chave privada ao agente SSH. |
+| **Adicionar Chave Privada** | `$ ssh-add ~/.ssh/id-ed25519` | Adiciona a chave privada ao agente SSH. |
 
 #### 3.2. Personal Access Token (PAT)
 
