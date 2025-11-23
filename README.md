@@ -150,3 +150,33 @@ Utiliza o *hash* (identificador exclusivo) do *commit* para retornar a um estado
 | **Criar Tag Anotada** | `$ git tag -a v1.0.0 -m "mensagem"` | Cria uma tag que armazena informações extras (autor, data, mensagem). |
 | **Listar Tags** | `$ git tag` | Lista todas as tags criadas. |
 | **Enviar Tags para o Remoto** | `$ git push origin --tags` | As tags **não** são enviadas automaticamente pelo `git push` normal. |
+
+### 9. ⚠️ Repositórios Não Relacionados:
+
+Quando na **primeira sincronização (`git push`)** o repositório local e o repositório remoto possuem **históricos de *commit* diferentes**
+
+#### ✅ Como Resolver (Forma Segura)
+
+A forma recomendada é **trazer as mudanças do GitHub** e tentar combiná-las com seu histórico local.
+
+| Passo | Comando | Descrição |
+| :--- | :--- | :--- |
+| **1. Puxar com permissão de merge** | `$ git pull origin main --allow-unrelated-histories` | Baixa o que está no GitHub (`origin main`) e permite a fusão de dois históricos que não estavam ligados. |
+| **2. Enviar as alterações** | `$ git push origin main` | Depois que os históricos são mesclados, você pode enviar o projeto normalmente. |
+
+> ❗ **Alerta:** Se houver conflito (arquivos iguais, com conteúdo diferente), o Git pedirá para você resolver os conflitos antes de prosseguir com o *push*.
+
+#### ⚠️ Sobrescrever o GitHub 
+
+Quando se tem **certeza** de que o conteúdo local é o correto e deseja **apagar tudo** o que existe no repositório remoto no GitHub, use a opção **`--force`**.
+
+| Situação | Comando | **Cuidado** |
+| :--- | :--- | :--- |
+| **Sobrescrever** o GitHub com seus arquivos locais | `$ git push origin main --force` | ⚠️ **ATENÇÃO:** Isso apaga o histórico e o conteúdo que estava no GitHub. 
+
+| Situação | Comando |
+| :--- | :--- |
+| Quero **baixar** o que está no GitHub e **integrar** | `$ git pull origin main --allow-unrelated-histories` |
+| Quero **sobrescrever** o GitHub com meus arquivos | `$ git push origin main --force` |
+
+---
