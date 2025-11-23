@@ -1,6 +1,6 @@
 ## 📚 Guia de Estudos e Consulta: Controle de Versão (VCS) e Git/GitHub
 
-Resumo organizado das minhas anotações sobre **Sistemas de Controle de Versão (VCS)**, com foco em **Git** e **GitHub**, seus comandos essenciais e fluxos de trabalho.
+Este documento é um resumo organizado das minhas anotações sobre **Sistemas de Controle de Versão (VCS)**, com foco em **Git** e **GitHub**, seus comandos essenciais e fluxos de trabalho.
 
 ---
 
@@ -47,11 +47,11 @@ Resumo organizado das minhas anotações sobre **Sistemas de Controle de Versão
 
 | Passo | Ação / Comando | Descrição |
 | :--- | :--- | :--- |
-| **1. Criar Repositório Remoto** | (Ação feita no GitHub) | No GitHub, crie um "New repository". É opcional adicionar `.gitignore` ou `README.md` aqui. |
+| **1. Criar Repositório Remoto** | (Ação feita no GitHub) | No GitHub, crie um "New repository". |
 | **2. Adicionar Remoto** | `$ git remote add origin <URL Github>` | Conecta seu repositório local ao recém-criado remoto, nomeando-o como **`origin`**. |
-| **3. Mudar Nome da Branch** | `$ git branch -M main` | (Opcional, mas recomendado) Renomeia sua *branch* local principal para `main`. |
+| **3. Mudar Nome da Branch** | `$ git branch -M main` | Renomeia sua *branch* local principal para `main`. |
 | **4. Primeira Sincronização** | `$ git push -u origin main` | Envia os *commits* do local (`main`) para o remoto (`origin`). O `-u` define `origin main` como *upstream*. |
-| **5. Clonar Repositório** | `$ git clone <URL>` | Cria uma cópia local de um repositório Git existente (se estiver começando do zero com um repositório remoto existente). |
+| **5. Clonar Repositório** | `$ git clone <URL>` | Cria uma cópia local de um repositório Git existente. |
 | **6. Baixar e Mesclar** | `$ git pull` | "Puxa" as alterações do repositório remoto para o local (**`fetch`** e **`merge`**). |
 | **7. Baixar (Apenas Fetch)** | `$ git fetch origin` | Verifica se há atualizações no remoto sem mesclá-las no branch atual. |
 | **8. Enviar Alterações** | `$ git push` | Envia os novos *commits* do repositório local para o remoto. |
@@ -64,23 +64,13 @@ O acesso ao GitHub para operações como `git clone` ou `git push` requer autent
 
 #### 3.1. Autenticação via Chave SSH (Recomendado)
 
-O protocolo **SSH** permite a conexão e autenticação no GitHub sem a necessidade de fornecer credenciais repetidamente.
-
 | Ação | Comando Git Bash | Observações |
 | :--- | :--- | :--- |
 | **Verificar Chaves** | `$ ls -a ~/.ssh` | Lista os arquivos existentes no diretório `.ssh`. |
 | **Gerar Nova Chave** | `$ ssh-keygen -t ed25519 -C "email github"` | Cria um par de chaves (**privada** e **pública**). |
 | **Exibir Chave Pública** | `$ cat id_ed25519.pub` | Copie o conteúdo para colar no GitHub (**Settings** $\rightarrow$ **Access** $\rightarrow$ **SSH...**). |
-| **Iniciar `ssh-agent`** | `$ eval "$(ssh-agent -s)"` | Inicia o agente para gerenciar as chaves. |
+| **Iniciar `ssh-agent`** | `$ eval "$(ssh-agent -s)" | Inicia o agente para gerenciar as chaves. |
 | **Adicionar Chave Privada** | `$ ssh-add ~/.ssh/id-ed25519` | Adiciona a chave privada ao agente SSH. |
-
-#### 3.2. Personal Access Token (PAT)
-
-Token gerado no GitHub para autenticação em vez da senha. É solicitado no primeiro acesso.
-
-* **Para salvar o token temporariamente:** `$ git config --global credential.helper cache`
-* **Para salvar o token permanentemente:** `$ git config --global credential.helper store`
-* **Verificar armazenamento:** `$ git config --global --show-origin credential.helper`
 
 ---
 
@@ -90,10 +80,10 @@ Este é o fluxo fundamental para registrar o progresso no Git.
 
 | Passo | Comando | Estado do Arquivo | Descrição |
 | :--- | :--- | :--- | :--- |
-| **1. Modificar** | (Edição no código) | Área de Trabalho (*Working Area*) | Arquivos são alterados e estão como **Modified** (ou **Untracked**). |
-| **2. Preparar** | `$ git add .` | Área de Preparação (*Staging Area*) | Move os arquivos do *Working Area* para o *Staging Area*. O Git os marca para o próximo *commit*. |
-| **3. Salvar** | `$ git commit -m 'mensagem'` | Repositório Local | Cria um ponto permanente no histórico, salvando o estado atual da *Staging Area*. |
-| **4. Enviar** | `$ git push` | Repositório Remoto | Envia os novos *commits* para o servidor remoto (ex: GitHub). |
+| **1. Modificar** | (Edição no código) | Área de Trabalho (*Working Area*) | Arquivos são alterados. |
+| **2. Preparar** | `$ git add .` | Área de Preparação (*Staging Area*) | Move os arquivos do *Working Area* para o *Staging Area*. |
+| **3. Salvar** | `$ git commit -m 'mensagem'` | Repositório Local | Cria um ponto permanente no histórico. |
+| **4. Enviar** | `$ git push` | Repositório Remoto | Envia os novos *commits* para o servidor remoto. |
 
 ---
 
@@ -101,22 +91,20 @@ Este é o fluxo fundamental para registrar o progresso no Git.
 
 | Objetivo | Comando | Observação |
 | :--- | :--- | :--- |
-| **Descartar Alterações Locais** | `$ git restore <arquivo>` | Descarta **TODAS** as alterações não commitadas no arquivo, retornando ao último *commit*. |
-| **Remover da Staging Area** | `$ git restore --staged <file>` | Remove o arquivo da *Staging Area* de volta para a Área de Trabalho (*Working Area*). |
+| **Descartar Alterações Locais** | `$ git restore <arquivo>` | Descarta **TODAS** as alterações não commitadas. |
+| **Remover da Staging Area** | `$ git restore --staged <file>` | Move o arquivo da *Staging Area* de volta para a Área de Trabalho. |
 | **Alterar Última Mensagem** | `$ git commit --amend -m "nova msg"` | Altera a mensagem do *commit* mais recente. |
-| **Remover Versionamento** | `$ rm -rf .git` | Deve ser usado para apagar o repositório Git localmente. |
-| **Arquivar Modificações** | `$ git stash` | Salva temporariamente as modificações não commitadas, limpando a área de trabalho. |
-| **Ignorar Arquivos** | Criar arquivo `.gitignore` | Arquivos/pastas listados aqui não serão rastreados pelo Git. |
+| **Arquivar Modificações** | `$ git stash` | Salva temporariamente as modificações não commitadas. |
 
 #### Git Reset (Desfazer Commits)
 
-Utiliza o *hash* (identificador exclusivo) do *commit* para retornar a um estado anterior.
+Utiliza o *hash* do *commit* para retornar a um estado anterior.
 
 | Tipo de Reset | Comando | Comportamento |
 | :--- | :--- | :--- |
-| **Soft** | `$ git reset --soft <hash>` | Move *commits* posteriores para a **Área de Preparação** (*Staging Area*). |
-| **Mixed (Padrão)** | `$ git reset --mixed <hash>` | Move *commits* posteriores para a **Área de Trabalho** (*Working Area*) como arquivos modificados (ou **untracked**). |
-| **Hard** | `$ git reset --hard <hash>` | Ignora e **descarta COMPLETAMENTE** os arquivos e *commits* posteriores ao *hash*. |
+| **Soft** | `$ git reset --soft <hash>` | Move *commits* posteriores para a **Área de Preparação**. |
+| **Mixed (Padrão)** | `$ git reset --mixed <hash>` | Move *commits* posteriores para a **Área de Trabalho**. |
+| **Hard** | `$ git reset --hard <hash>` | Ignora e **descarta COMPLETAMENTE** os *commits* posteriores. |
 
 ---
 
@@ -124,59 +112,98 @@ Utiliza o *hash* (identificador exclusivo) do *commit* para retornar a um estado
 
 | Objetivo | Comando | Descrição |
 | :--- | :--- | :--- |
-| **Listar Branches** | `$ git branch -v` | Lista as *branches* e mostra o último *commit* de cada uma. |
-| **Mudar Branch** | `$ git branch -M main` | Muda o nome da *branch* atual (ex: de `master` para `main`). |
-| **Criar e Mudar** | `$ git checkout -b nome-de-nova-branch` | Cria uma nova *branch* e move o **HEAD** (ponteiro) para ela. |
+| **Listar Branches** | `$ git branch -v` | Lista as *branches* e mostra o último *commit*. |
+| **Criar e Mudar** | `$ git checkout -b nome-de-nova-branch` | Cria uma nova *branch* e move o **HEAD** para ela. |
 | **Mesclar Branches** | `$ git merge nome-de-nova-branch` | Mescla as alterações da *branch* indicada na *branch* atual. |
-| **Excluir Branch** | `$ git branch -d nome-de-branch-que-quero-excluir` | Exclui a *branch* local (somente se as alterações já foram mescladas). |
-| **Clonar Branch Específica** | `$ git clone <URL> --branch <nome> --single-branch` | Clona o repositório baixando apenas a *branch* especificada. |
-| **Mostrar Diferenças** | `$ git diff` | Mostra as diferenças entre o *working directory* e o *staging area*, ou entre branches. |
+| **Excluir Branch** | `$ git branch -d nome-de-branch` | Exclui a *branch* local. |
 
 ---
 
-### 7. 🔄 Atualização de Repositório e Conflitos
+### 7. 📘 Guia Rápido — Correções e .gitignore
 
-| Conceito/Ação | Comando | Descrição |
+#### 7.1. ⚠️ Correção do Erro: `src refspec main does not match any`
+
+Esse erro significa que você tentou dar um `push` antes de criar o primeiro *commit* ou de nomear o *branch* principal como `main`.
+
+| Passo | Comando | Objetivo |
 | :--- | :--- | :--- |
-| **`git fetch` vs. `git pull`** | `$ git fetch` | **Baixa** as alterações do remoto, mas **NÃO** as mescla no seu *branch* local. |
-| | `$ git pull` | Executa **`git fetch`** seguido por **`git merge`**. Baixa e mescla automaticamente. |
-| **Resolução de Conflitos** | Editar o arquivo, `$ git add .`, `$ git commit -m "Resolvendo conflitos"` | Remover as marcações `<<<<<<<`, `=======`, `>>>>>>>` no arquivo e salvar o código desejado. |
+| **1. Adicionar** | `$ git add .` | Prepara os arquivos para o *commit*. |
+| **2. Commit** | `$ git commit -m "first commit"` | Cria o primeiro ponto no histórico. |
+| **3. Renomear** | `$ git branch -M main` | Garante que o *branch* principal se chame `main`. |
+| **4. Push** | `$ git push -u origin main` | Envia o novo histórico para o GitHub. |
 
-### 8. 🏷️ Tags e Histórico
+#### 7.2. 📄 Como criar um `.gitignore`
 
-| Objetivo | Comando | Descrição |
+O arquivo `.gitignore` instrui o Git a **ignorar** arquivos e pastas específicos, impedindo que sejam enviados para o GitHub (como arquivos de build, logs ou senhas).
+
+| Ação | Comando | Exemplo de Uso |
 | :--- | :--- | :--- |
-| **Criar Tag Leve** | `$ git tag v1.0.0` | Cria uma tag simples. |
-| **Criar Tag Anotada** | `$ git tag -a v1.0.0 -m "mensagem"` | Cria uma tag que armazena informações extras (autor, data, mensagem). |
-| **Listar Tags** | `$ git tag` | Lista todas as tags criadas. |
-| **Enviar Tags para o Remoto** | `$ git push origin --tags` | As tags **não** são enviadas automaticamente pelo `git push` normal. |
+| **Criar o Arquivo** | `$ touch .gitignore` | Cria o arquivo na raiz do seu projeto. |
+| **Conteúdo Comum** | (Editar o arquivo) | Incluir nomes de diretórios (`/bin/`), extensões (`*.class`) ou arquivos sensíveis (`*.env`). |
 
-### 9. ⚠️ Repositórios Não Relacionados:
+**Exemplo de Conteúdo para `.gitignore` (arquivo genérico):**
+```gitignore
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
 
-Quando na **primeira sincronização (`git push`)** o repositório local e o repositório remoto possuem **históricos de *commit* diferentes**
+# VSCode
+.vscode/
 
-#### ✅ Como Resolver (Forma Segura)
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
-A forma recomendada é **trazer as mudanças do GitHub** e tentar combiná-las com seu histórico local.
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+tmp/
 
-| Passo | Comando | Descrição |
+# Java / Build
+*.class
+out/
+target/
+build/
+classes/
+generated/
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+*~
+
+# Outros
+*.tmp
+*.swp
+*.bak
+venv/
+env/
+````
+
+-----
+
+### 8\. ⚠️ Solução de Erro Comum: Históricos Não Relacionados
+
+Esse erro (`updates were rejected because the remote contains work that you do not have locally`) acontece na primeira sincronização quando o GitHub tem arquivos que o seu projeto local não tem (ex: README ou LICENSE criados online).
+
+| Situação | Comando | Descrição |
 | :--- | :--- | :--- |
-| **1. Puxar com permissão de merge** | `$ git pull origin main --allow-unrelated-histories` | Baixa o que está no GitHub (`origin main`) e permite a fusão de dois históricos que não estavam ligados. |
-| **2. Enviar as alterações** | `$ git push origin main` | Depois que os históricos são mesclados, você pode enviar o projeto normalmente. |
+| **Integrar** o GitHub com o Local (Forma Segura) | `$ git pull origin main --allow-unrelated-histories` | Baixa o que está no GitHub e permite a fusão de históricos não relacionados. |
+| **Sobrescrever** o GitHub com o Local (Forçar) | `$ git push origin main --force` | ⚠️ **ATENÇÃO:** Apaga o histórico e o conteúdo que estava no GitHub. Use com extrema cautela\! |
 
-> ❗ **Alerta:** Se houver conflito (arquivos iguais, com conteúdo diferente), o Git pedirá para você resolver os conflitos antes de prosseguir com o *push*.
-
-#### ⚠️ Sobrescrever o GitHub 
-
-Quando se tem **certeza** de que o conteúdo local é o correto e deseja **apagar tudo** o que existe no repositório remoto no GitHub, use a opção **`--force`**.
-
-| Situação | Comando | **Cuidado** |
-| :--- | :--- | :--- |
-| **Sobrescrever** o GitHub com seus arquivos locais | `$ git push origin main --force` | ⚠️ **ATENÇÃO:** Isso apaga o histórico e o conteúdo que estava no GitHub. 
-
-| Situação | Comando |
-| :--- | :--- |
-| Quero **baixar** o que está no GitHub e **integrar** | `$ git pull origin main --allow-unrelated-histories` |
-| Quero **sobrescrever** o GitHub com meus arquivos | `$ git push origin main --force` |
-
----
+```
+```
