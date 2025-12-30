@@ -13,7 +13,6 @@
 | Salvar (apenas) | **`:w`** | Modo de Comando |
 
 ---
----
 
 ### 1. 💻 Conceitos Fundamentais
 
@@ -75,12 +74,14 @@
 | `$ ls -a ~/.ssh` | Lista chaves existentes. |
 | `$ ssh-keygen -t ed25519 -C "email github"` | Gera par de chaves. |
 | `$ cat id_ed25519.pub` | Exibe chave pública para o GitHub. |
-| `$ eval "$(ssh-agent -s)" | Inicia `ssh-agent`. |
-| `$ ssh-add ~/.ssh/id-ed25519` | Adiciona chave privada ao agente. |
+| `$ eval "$(ssh-agent -s)"` | Inicia `ssh-agent`. |
+| `$ ssh-add ~/.ssh/id_ed25519` | Adiciona chave privada ao agente. |
 
 ---
 
 ### 4. 📝 Ciclo de Commit (Salvando Alterações)
+
+
 
 | Passo | Comando | Estado do Arquivo |
 | :--- | :--- | :--- |
@@ -91,7 +92,21 @@
 
 ---
 
-### 5. Desfazendo Alterações e Limpeza
+### 5. 🗑️ Removendo Arquivos (git rm)
+
+O comando `git rm` gerencia a remoção de arquivos rastreados.
+
+| Objetivo | Comando |
+| :--- | :--- |
+| **Remover do Git e do Disco** | `$ git rm <arquivo>` |
+| **Remover do Git, mas MANTER no Disco** | `$ git rm --cached <arquivo>` |
+| **Remover uma pasta recursivamente** | `$ git rm -r <pasta>` |
+
+> **Dica:** Use `git rm --cached` quando quiser que o Git pare de monitorar um arquivo (ex: um `.env` que foi enviado por erro) sem deletá-lo fisicamente da sua pasta.
+
+---
+
+### 6. 🔄 Desfazendo Alterações e Limpeza
 
 | Objetivo | Comando |
 | :--- | :--- |
@@ -102,15 +117,17 @@
 
 #### Git Reset (Desfazer Commits)
 
-| Tipo de Reset | Comando |
-| :--- | :--- |
-| **Soft** | `$ git reset --soft <hash>` |
-| **Mixed (Padrão)** | `$ git reset --mixed <hash>` |
-| **Hard** | `$ git reset --hard <hash>` |
+| Tipo de Reset | Comando | Efeito |
+| :--- | :--- | :--- |
+| **Soft** | `$ git reset --soft <hash>` | Mantém arquivos alterados e no Staging. |
+| **Mixed** | `$ git reset --mixed <hash>` | Mantém arquivos alterados, mas fora do Staging. |
+| **Hard** | `$ git reset --hard <hash>` | Apaga todas as alterações permanentemente. |
 
 ---
 
-### 6. 🌳 Trabalhando com Branches
+### 7. 🌳 Trabalhando com Branches
+
+
 
 | Objetivo | Comando |
 | :--- | :--- |
@@ -119,11 +136,19 @@
 | **Mesclar Branches** | `$ git merge nome-de-nova-branch` |
 | **Excluir Branch** | `$ git branch -d nome-de-branch` |
 
+
+
 ---
 
-### 7. 📘 Guia Rápido — Correções e .gitignore
 
-#### 7.1. ⚠️ Correção do Erro: `src refspec main does not match any`
+
+### 8. 📘 Guia Rápido — Correções e .gitignore
+
+
+
+#### 8.1. ⚠️ Correção do Erro: `src refspec main does not match any`
+
+
 
 | Passo | Comando |
 | :--- | :--- |
@@ -132,60 +157,110 @@
 | **3. Renomear** | `$ git branch -M main` |
 | **4. Push** | `$ git push -u origin main` |
 
+
+
 #### 7.2. 📄 Como criar um `.gitignore`
+
 
 | Ação | Comando |
 | :--- | :--- |
 | **Criar o Arquivo** | `$ touch .gitignore` |
 
+
+
 **Conteúdo para `.gitignore` (arquivo genérico):**
+
 ```gitignore
+
 # IntelliJ IDEA
+
 .idea/
+
 *.iml
+
 *.iws
+
 *.ipr
 
+
+
 # VSCode
+
 .vscode/
 
+
+
 # NetBeans
+
 nbproject/private/
+
 build/
+
 nbbuild/
+
 dist/
+
 nbdist/
+
 .nb-gradle/
 
+
+
 # Eclipse
+
 .project
+
 .classpath
+
 .settings/
+
 bin/
+
 tmp/
 
+
+
 # Java / Build
+
 *.class
+
 out/
+
 target/
+
 build/
+
 classes/
+
 generated/
+
 *.jar
+
 *.war
+
 *.ear
 
+
+
 # Logs
+
 *.log
 
-# OS
-.DS_Store
-Thumbs.db
-*~
 
-# Outros
-*.tmp
-*.swp
-*.bak
-venv/
-env/
+
+# OS
+
+.DS_Store
+
+Thumbs.db
+
+
+````
+### Autora:
+Desenvolvido por [Caroline L. Santos](https://linkedin.com/in/lsantoscaroline/)
+
+---
+
+⭐ Se este projeto foi útil para você, considere dar uma estrela!
+
+
